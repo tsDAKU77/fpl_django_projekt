@@ -1,0 +1,17 @@
+{% extends "nav.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center">Register</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary w-100">Register</button>
+    </form>
+    <div class="text-center mt-3">
+        <a href="/login/">Already have an account? Login here.</a>
+    </div>
+</div>
+{% endblock %}

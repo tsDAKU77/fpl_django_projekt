@@ -1,0 +1,62 @@
+{% extends "nav.html" %}
+
+{% block title %}Player Stats{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1>Player Stats</h1>
+    
+    <form method="GET">
+        <label for="player_Team">Team:</label>
+            <input type="text" name="player_Team" value="{{ team_filter }}">
+    
+        <label for="player_Position">Position:</label>
+            <input type="text" name="player_Position" value="{{ position_filter }}">
+
+        <label for="player_Status">Status:</label>
+            <input type="text" name="player_Status" value="{{ status_filter }}">
+
+        <label for="search">Search:</label>
+            <input type="text" name="search" value="{{ search_query }}">
+
+        <label for="sort_by">Sort By:</label>
+            <select name="sort_by">
+                <option value="player_Name" {% if sort_by == 'player_Name' %}selected{% endif %}>Player Name</option>
+                <option value="player_Team" {% if sort_by == 'player_Team' %}selected{% endif %}>Team</option>
+            </select>
+
+        <label for="order">Order:</label>
+        <select name="order">
+            <option value="asc" {% if order == 'asc' %}selected{% endif %}>Ascending</option>
+            <option value="desc" {% if order == 'desc' %}selected{% endif %}>Descending</option>
+        </select>
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                {% for column in columns %}
+                    <th>{{ column }}</th>  <!-- Render column names as headers -->
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in players %}
+                <tr>
+                    {% for column in columns %}
+                        <td>{{ player[column] }}</td>  <!-- Access the dynamic column data -->
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div>
+        <span>Page {{ current_page }} of {{ total_pages }}</span>
+        <a href="?page={{ current_page|add:'-1' }}&per_page={{ per_page }}" {% if current_page == 1 %}style="display:none;"{% endif %}>Previous</a>
+        <a href="?page={{ current_page|add:'1' }}&per_page={{ per_page }}" {% if current_page == total_pages %}style="display:none;"{% endif %}>Next</a>
+    </div>
+</div>
+{% endblock %}
